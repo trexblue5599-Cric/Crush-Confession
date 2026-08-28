@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>💖 A Question for You</title>
+    <style>
+        /* ── reset & base ── */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(145deg, #fce4ec, #f8bbd0);
+            font-family: 'Segoe UI', 'Poppins', system-ui, sans-serif;
+            padding: 1rem;
+            margin: 0;
+            transition: background 0.6s ease;
+        }
+
+        /* ── main card ── */
+        .card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 3rem 3rem 2rem 2rem;
+            padding: 3rem 2.5rem 2.5rem;
+            max-width: 620px;
+            width: 100%;
+            box-shadow:
+                0 30px 60px rgba(233, 30, 99, 0.2),
+                0 10px 30px rgba(0, 0, 0, 0.08),
+                inset 0 1px 2px rgba(255, 255, 255, 0.6);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.4s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: visible;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -60%;
+            left: -60%;
+            width: 220%;
+            height: 220%;
+            background: radial-gradient(circle at 30% 20%, rgba(255, 182, 193, 0.15), transparent 70%);
+            pointer-events: none;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 40px 70px rgba(233, 30, 99, 0.25);
+        }
+
+        /* ── emoji header ── */
+        .emoji-header {
+            font-size: 4.2rem;
+            line-height: 1.2;
+            margin-bottom: 0.3rem;
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        /* ── title ── */
+        .title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #880e4f;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.5px;
+            position: relative;
+        }
+
+        .title span {
+            background: linear-gradient(135deg, #d81b60, #ad1457);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* ── message ── */
+        .message {
+            font-size: 1.2rem;
+            color: #4a1a2c;
+            margin: 0.8rem 0 1.8rem;
+            font-weight: 400;
+            line-height: 1.6;
+            padding: 0 0.5rem;
+        }
+
+        .message .crush-name {
+            font-weight: 700;
+            color: #ad1457;
+            background: rgba(233, 30, 99, 0.08);
+            padding: 0.1rem 0.6rem;
+            border-radius: 30px;
+            display: inline-block;
+        }
+
+        /* ── buttons ── */
+        .button-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+            margin: 1.5rem 0 0.5rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .btn {
+            border: none;
+            padding: 0.9rem 2.8rem;
+            border-radius: 60px;
+            font-size: 1.25rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+            min-width: 130px;
+            letter-spacing: 0.3px;
+            position: relative;
+            overflow: visible;
+            will-change: transform;
+        }
+
+        .btn-yes {
+            background: linear-gradient(145deg, #d81b60, #ad1457);
+            color: #fff;
+            box-shadow: 0 8px 25px rgba(216, 27, 96, 0.35);
+            transform: scale(1);
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
+            transform-origin: center;
+        }
+        .btn-yes:hover {
+            transform: scale(1.06) translateY(-2px);
+            box-shadow: 0 12px 35px rgba(216, 27, 96, 0.45);
+        }
+        .btn-yes:active {
+            transform: scale(0.95);
+        }
+
+        /* glow pulse animation – triggered via class */
+        .btn-yes.glow {
+            animation: glowPulse 0.6s ease 1;
+        }
+
+        @keyframes glowPulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(216, 27, 96, 0.6), 0 8px 25px rgba(216, 27, 96, 0.35);
+            }
+            50% {
+                box-shadow: 0 0 40px 20px rgba(216, 27, 96, 0.45), 0 8px 35px rgba(216, 27, 96, 0.5);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(216, 27, 96, 0.2), 0 8px 25px rgba(216, 27, 96, 0.35);
+            }
+        }
+
+        .btn-no {
+            background: #f5f5f5;
+            color: #424242;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+            border: 1px solid rgba(0, 0, 0, 0.04);
+            transition: all 0.25s ease;
+        }
+        .btn-no:hover {
+            background: #eeeeee;
+            transform: scale(1.04) translateY(-2px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+        }
+        .btn-no:active {
+            transform: scale(0.95);
+        }
+
+        .btn:disabled {
+            cursor: default;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        /* ── response area ── */
+        .response {
+            margin-top: 1.8rem;
+            padding: 1.2rem 1rem;
+            border-radius: 2rem;
+            background: rgba(255, 255, 255, 0.5);
+            min-height: 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s ease;
+            border: 1px dashed rgba(173, 20, 87, 0.15);
+        }
+
+        .response-text {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #4a1a2c;
+        }
+
+        .response-sub {
+            font-size: 1rem;
+            color: #6d4c5a;
+            margin-top: 0.3rem;
+            font-weight: 400;
+        }
+
+        .response .big-emoji {
+            font-size: 3.5rem;
+            display: block;
+            margin-bottom: 0.2rem;
+        }
+
+        /* ── desperate messages (appear below the "no box") ── */
+        .desperate-container {
+            margin-top: 1.2rem;
+            padding: 0.2rem 0.5rem;
+            min-height: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.4rem;
+            width: 100%;
+            max-height: 260px;
+            overflow-y: auto;
+            scroll-behavior: smooth;
+        }
+
+        .desperate-container::-webkit-scrollbar {
+            width: 4px;
+        }
+        .desperate-container::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.04);
+            border-radius: 10px;
+        }
+        .desperate-container::-webkit-scrollbar-thumb {
+            background: rgba(216, 27, 96, 0.25);
+            border-radius: 10px;
+        }
+
+        .desperate-msg {
+            font-size: 0.95rem;
+            color: #6d4c5a;
+            background: rgba(255, 255, 255, 0.5);
+            padding: 0.4rem 1.2rem;
+            border-radius: 30px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+            animation: msgSlideIn 0.4s ease forwards;
+            opacity: 0;
+            transform: translateY(12px) scale(0.95);
+            max-width: 90%;
+            border: 1px solid rgba(173, 20, 87, 0.06);
+            backdrop-filter: blur(4px);
+            transition: all 0.2s ease;
+        }
+
+        .desperate-msg:hover {
+            background: rgba(255, 255, 255, 0.8);
+            transform: scale(1.02);
+        }
+
+        @keyframes msgSlideIn {
+            0% {
+                opacity: 0;
+                transform: translateY(12px) scale(0.95);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* ── confetti container ── */
+        #confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            overflow: hidden;
+        }
+
+        .confetti-piece {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            opacity: 0;
+            animation: confettiFall linear forwards;
+        }
+
+        @keyframes confettiFall {
+            0% {
+                opacity: 1;
+                transform: translateY(-10vh) rotate(0deg) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(110vh) rotate(720deg) scale(0.2);
+            }
+        }
+
+        /* ── hearts floating background ── */
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .floating-heart {
+            position: absolute;
+            font-size: 1.6rem;
+            opacity: 0.15;
+            animation: floatHeart linear infinite;
+            user-select: none;
+        }
+
+        @keyframes floatHeart {
+            0% {
+                transform: translateY(110vh) rotate(0deg) scale(0.6);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.15;
+            }
+            90% {
+                opacity: 0.15;
+            }
+            100% {
+                transform: translateY(-10vh) rotate(360deg) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        /* ── responsive ── */
+        @media (max-width: 480px) {
+            .card {
+                padding: 2rem 1.2rem 1.8rem;
+                border-radius: 2rem;
+            }
+            .title {
+                font-size: 1.7rem;
+            }
+            .emoji-header {
+                font-size: 3rem;
+            }
+            .message {
+                font-size: 1rem;
+            }
+            .btn {
+                padding: 0.7rem 1.8rem;
+                font-size: 1rem;
+                min-width: 100px;
+            }
+            .button-group {
+                gap: 0.8rem;
+            }
+            .response-text {
+                font-size: 1.2rem;
+            }
+            .desperate-msg {
+                font-size: 0.85rem;
+                padding: 0.3rem 1rem;
+            }
+            .desperate-container {
+                max-height: 180px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .btn {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.9rem;
+                min-width: 80px;
+            }
+            .title {
+                font-size: 1.4rem;
+            }
+        }
+
+        /* ── utility ── */
+        .hidden {
+            display: none !important;
+        }
+
+        .sparkle {
+            display: inline-block;
+            animation: sparklePulse 0.8s ease infinite alternate;
+        }
+        @keyframes sparklePulse {
+            0% {
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(1.3);
+            }
+        }
+
+        /* small counter badge on yes button when it grows */
+        .btn-yes .grow-badge {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: #ff6f00;
+            color: #fff;
+            font-size: 0.6rem;
+            font-weight: 700;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(255, 111, 0, 0.4);
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+        .btn-yes .grow-badge.show {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* no-click count display */
+        .no-count {
+            font-size: 0.7rem;
+            color: #ad8a99;
+            opacity: 0.5;
+            margin-top: 0.2rem;
+            letter-spacing: 0.3px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ─── floating background hearts ─── -->
+    <div class="floating-hearts" id="floatingHearts" aria-hidden="true"></div>
+
+    <!-- ─── confetti layer ─── -->
+    <div id="confetti-container" aria-hidden="true"></div>
+
+    <!-- ─── main card ─── -->
+    <div class="card" role="main" aria-label="Love question card">
+
+        <div class="emoji-header">
+            <span>🌷</span>
+            <span>💕</span>
+            <span>🌸</span>
+        </div>
+
+        <h1 class="title">
+            <span>Hey there,</span>
+        </h1>
+
+        <p class="message" id="questionMessage">
+            I've got a little question for
+            <span class="crush-name" id="crushNameDisplay">you</span>
+            …
+        </p>
+
+        <!-- ─── buttons ─── -->
+        <div class="button-group" id="buttonGroup">
+            <button class="btn btn-yes" id="btnYes" aria-label="Yes, I'd love to!">
+                💖 Yes!
+                <span class="grow-badge" id="growBadge">1</span>
+            </button>
+            <button class="btn btn-no" id="btnNo" aria-label="No, thanks">
+                😅 No
+            </button>
+        </div>
+
+        <!-- ─── response ─── -->
+        <div class="response" id="responseArea">
+            <span class="response-text" id="responseText">💭 &nbsp;Tap a button above</span>
+            <span class="response-sub" id="responseSub">(no pressure, just curious ♡)</span>
+        </div>
+
+        <!-- ─── desperate messages container (below the "no box") ─── -->
+        <div class="desperate-container" id="desperateContainer">
+            <!-- messages get injected here -->
+        </div>
+
+        <!-- small footer note -->
+        <p style="margin-top: 1.2rem; font-size: 0.75rem; color: #ad8a99; opacity: 0.7; letter-spacing: 0.3px;">
+            made with 💻 &amp; ☕ &bull; for you
+        </p>
+    </div>
+
+    <script>
+        (function() {
+            'use strict';
+
+            // ─── DOM refs ──────────────────────────────────────────────
+            const btnYes = document.getElementById('btnYes');
+            const btnNo = document.getElementById('btnNo');
+            const responseText = document.getElementById('responseText');
+            const responseSub = document.getElementById('responseSub');
+            const responseArea = document.getElementById('responseArea');
+            const questionMsg = document.getElementById('questionMessage');
+            const crushNameSpan = document.getElementById('crushNameDisplay');
+            const floatingContainer = document.getElementById('floatingHearts');
+            const confettiContainer = document.getElementById('confetti-container');
+            const desperateContainer = document.getElementById('desperateContainer');
+            const growBadge = document.getElementById('growBadge');
+
+            // ─── CONFIG ────────────────────────────────────────────────
+            // ✏️ EDIT THIS: change your crush's name here!
+            const CRUSH_NAME = 'You'; // e.g. 'Alex', 'Jamie', 'Sam'
+
+            // ─── set name ──────────────────────────────────────────────
+            crushNameSpan.textContent = CRUSH_NAME;
+            const msgParts = questionMsg.innerHTML.split(
+                '<span class="crush-name" id="crushNameDisplay">');
+            if (msgParts.length === 2) {
+                const after = msgParts[1].split('</span>');
+                if (after.length === 2) {
+                    questionMsg.innerHTML =
+                        `${msgParts[0]}<span class="crush-name" id="crushNameDisplay">${CRUSH_NAME}</span>${after[1]}`;
+                }
+            }
+
+            // ─── state ──────────────────────────────────────────────────
+            let answered = false;
+            let noClickCount = 0;
+            let yesScale = 1;
+
+            // ─── desperate messages list ──────────────────────────────
+            const desperateMessages = [
+                "Mistakenly clicked? No worries! 😅",
+                "Hmm, did you really mean that? 🤔",
+                "Okay, but… really? 😅",
+                "Again? You're breaking my heart! 💔",
+                "Please? 🙏",
+                "Pretty please? 🥺",
+                "With a cherry on top? 🍒",
+                "I'll buy you dinner! 🍕",
+                "Anything you want! 🎁",
+                "Okay now you're just teasing me 😏",
+                "I'm not giving up! 💪",
+                "You're making this hard 😅",
+                "Just say yes already! 😂",
+                "My heart can't take this 💔",
+                "Okay I'll stop… maybe 😉",
+                "Last chance? 🤞",
+                "Okay fine, you win 😅",
+                "But seriously though? 🥺",
+                "I'll be your best friend! 👯",
+                "I'll do anything! 🫣",
+                "Okay I'm officially obsessed 😍",
+                "You're killing me smalls! 😂",
+                "I'll bake you cookies! 🍪",
+                "I'll serenade you! 🎵",
+                "I'll write you a poem! 📝",
+                "I'll build you a website! 💻",
+                "I'll love you forever! 💕",
+                "Okay I'll just keep asking… 🙃",
+                "You're my favorite person! 🌟",
+                "I'll never give up on you! 💪",
+                "You're the best thing ever! 🌈",
+                "I'll bring you flowers! 🌻",
+                "I'll learn to cook for you! 🍳",
+                "I'll watch your favorite show! 📺",
+                "I'll be your personal assistant! 📋",
+                "I'll carry your bags! 👜",
+                "I'll give you the last slice! 🍕",
+                "I'll share my fries! 🍟",
+                "I'll let you pick the movie! 🎬",
+                "I'll drive you anywhere! 🚗",
+                "I'll sing you a lullaby! 🎶",
+                "I'll draw you a picture! 🎨",
+                "I'll write you a song! 🎵",
+                "I'll make you a playlist! 🎧",
+                "I'll be your personal cheerleader! 📣",
+                "I'll never say no to you again! 🙈",
+                "Okay this is getting out of hand 😂",
+                "But I still love you though! 💕",
+                "Just say yes and end my suffering! 😭",
+                "I'll give you the world! 🌍",
+                "You're perfect, just so you know ✨",
+            ];
+
+            // ─── floating hearts background ──────────────────────────
+            function createFloatingHearts() {
+                const hearts = ['❤️', '💕', '💗', '🌸', '🌺', '✨', '💖', '🩷'];
+                const count = 28;
+                for (let i = 0; i < count; i++) {
+                    const el = document.createElement('span');
+                    el.className = 'floating-heart';
+                    el.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                    el.style.left = Math.random() * 100 + '%';
+                    el.style.fontSize = (1 + Math.random() * 2.2) + 'rem';
+                    el.style.animationDuration = (15 + Math.random() * 25) + 's';
+                    el.style.animationDelay = (Math.random() * 25) + 's';
+                    el.style.opacity = 0.06 + Math.random() * 0.12;
+                    floatingContainer.appendChild(el);
+                }
+            }
+            createFloatingHearts();
+
+            // ─── confetti system ──────────────────────────────────────
+            function fireConfetti(count = 180) {
+                const colors = [
+                    '#e91e63', '#f06292', '#f48fb1', '#f8bbd0',
+                    '#ff6f00', '#ffab00', '#ffd600', '#ffea00',
+                    '#00c853', '#69f0ae', '#40c4ff', '#2979ff',
+                    '#d500f9', '#ea80fc', '#ff4081', '#ff80ab'
+                ];
+                const shapes = ['■', '●', '▲', '★', '♦', '❤'];
+
+                for (let i = 0; i < count; i++) {
+                    const piece = document.createElement('div');
+                    piece.className = 'confetti-piece';
+                    piece.textContent = shapes[Math.floor(Math.random() * shapes.length)];
+                    piece.style.left = Math.random() * 100 + '%';
+                    piece.style.color = colors[Math.floor(Math.random() * colors.length)];
+                    piece.style.fontSize = (14 + Math.random() * 24) + 'px';
+                    piece.style.transform = `rotate(${Math.random() * 360}deg)`;
+                    piece.style.animationDuration = (2.5 + Math.random() * 3.5) + 's';
+                    piece.style.animationDelay = (Math.random() * 0.8) + 's';
+                    piece.style.width = 'auto';
+                    piece.style.height = 'auto';
+                    piece.style.background = 'transparent';
+                    piece.style.borderRadius = '0';
+                    confettiContainer.appendChild(piece);
+
+                    setTimeout(() => {
+                        if (piece.parentNode) piece.remove();
+                    }, 6000);
+                }
+
+                setTimeout(() => {
+                    const all = confettiContainer.querySelectorAll('.confetti-piece');
+                    if (all.length > 300) {
+                        all.forEach((el, idx) => {
+                            if (idx > 200) el.remove();
+                        });
+                    }
+                }, 8000);
+            }
+
+            // ─── grow Yes button ──────────────────────────────────────
+            function growYesButton() {
+                yesScale += 0.5;
+                btnYes.style.transform = `scale(${yesScale})`;
+                // show badge with count
+                growBadge.textContent = Math.round(yesScale * 10) / 10;
+                growBadge.classList.add('show');
+                // also update the badge number to show scale factor
+                // but keep it readable
+                if (yesScale > 2) {
+                    growBadge.textContent = `${Math.round(yesScale * 10) / 10}x`;
+                }
+                // if scale gets huge, adjust font size
+                if (yesScale > 5) {
+                    growBadge.style.fontSize = '0.5rem';
+                    growBadge.style.width = '26px';
+                    growBadge.style.height = '26px';
+                }
+            }
+
+            // ─── glow Yes button ──────────────────────────────────────
+            function glowYesButton() {
+                btnYes.classList.remove('glow');
+                // force reflow for animation restart
+                void btnYes.offsetWidth;
+                btnYes.classList.add('glow');
+                // remove the class after animation ends
+                setTimeout(() => {
+                    btnYes.classList.remove('glow');
+                }, 700);
+            }
+
+            // ─── add desperate message ───────────────────────────────
+            function addDesperateMessage() {
+                const idx = Math.min(noClickCount - 1, desperateMessages.length - 1);
+                const msg = desperateMessages[idx] || "You're amazing! 💖";
+
+                const el = document.createElement('div');
+                el.className = 'desperate-msg';
+                el.textContent = msg;
+                desperateContainer.appendChild(el);
+
+                // scroll to bottom
+                desperateContainer.scrollTop = desperateContainer.scrollHeight;
+            }
+
+            // ─── response: YES ────────────────────────────────────────
+            function handleYes() {
+                if (answered) return;
+                answered = true;
+
+                // update UI
+                responseText.innerHTML = '🎉 YAY! 💖';
+                responseSub.textContent = `You just made my day, ${CRUSH_NAME}! Can't wait ✨`;
+                responseArea.style.background = 'rgba(232, 245, 233, 0.6)';
+                responseArea.style.borderColor = '#d81b60';
+
+                // disable buttons
+                btnYes.disabled = true;
+                btnNo.disabled = true;
+                btnYes.style.cursor = 'default';
+                btnNo.style.cursor = 'default';
+
+                // celebratory confetti
+                fireConfetti(220);
+                setTimeout(() => fireConfetti(140), 600);
+                setTimeout(() => fireConfetti(100), 1400);
+
+                document.body.style.background = 'linear-gradient(145deg, #fce4ec, #f3c4d4)';
+
+                const spark = document.createElement('span');
+                spark.className = 'sparkle';
+                spark.textContent = ' ✨';
+                responseText.appendChild(spark);
+
+                // hide the desperate messages? no, keep them as a memory
+            }
+
+            // ─── response: NO (with all the fun effects) ─────────────
+            function handleNo() {
+                // if already answered Yes, ignore
+                if (answered) return;
+
+                // increment counter
+                noClickCount++;
+
+                // 1. Update response area (keep it friendly)
+                responseText.innerHTML = '😊 That\'s okay!';
+                responseSub.textContent = `I'm still glad I asked, ${CRUSH_NAME}. Hope you have a lovely day 🌷`;
+                responseArea.style.background = 'rgba(245, 245, 245, 0.7)';
+                responseArea.style.borderColor = '#bdbdbd';
+
+                // 2. Grow the Yes button
+                growYesButton();
+
+                // 3. Glow the Yes button (one time per click)
+                glowYesButton();
+
+                // 4. Add a new desperate message below
+                addDesperateMessage();
+
+                // 5. Small haptic feedback (vibration if supported)
+                if (navigator.vibrate) {
+                    navigator.vibrate(10);
+                }
+
+                // 6. Also change body background slightly with each no click (subtle)
+                const hue = 340 + (noClickCount * 2) % 30;
+                document.body.style.background =
+                    `linear-gradient(145deg, #fce4ec, hsl(${hue}, 60%, 85%))`;
+
+                // 7. If they click No a LOT, add extra fun
+                if (noClickCount === 10) {
+                    // extra confetti burst as a joke
+                    fireConfetti(40);
+                    setTimeout(() => {
+                        const extra = document.createElement('div');
+                        extra.className = 'desperate-msg';
+                        extra.textContent = 'Okay you\'re really committed to this 😂';
+                        desperateContainer.appendChild(extra);
+                        desperateContainer.scrollTop = desperateContainer.scrollHeight;
+                    }, 300);
+                }
+
+                if (noClickCount === 20) {
+                    setTimeout(() => {
+                        const extra = document.createElement('div');
+                        extra.className = 'desperate-msg';
+                        extra.textContent = '20 times?! You\'re a legend 🤣';
+                        desperateContainer.appendChild(extra);
+                        desperateContainer.scrollTop = desperateContainer.scrollHeight;
+                    }, 400);
+                }
+
+                if (noClickCount === 30) {
+                    setTimeout(() => {
+                        const extra = document.createElement('div');
+                        extra.className = 'desperate-msg';
+                        extra.textContent = '30?! I\'m genuinely impressed 😂👏';
+                        desperateContainer.appendChild(extra);
+                        desperateContainer.scrollTop = desperateContainer.scrollHeight;
+                    }, 500);
+                }
+
+                if (noClickCount === 50) {
+                    setTimeout(() => {
+                        const extra = document.createElement('div');
+                        extra.className = 'desperate-msg';
+                        extra.textContent = '50 times… I think you\'re my soulmate 😂💕';
+                        desperateContainer.appendChild(extra);
+                        desperateContainer.scrollTop = desperateContainer.scrollHeight;
+                        fireConfetti(80);
+                    }, 600);
+                }
+
+                // if they somehow go past the message list, cycle back with a twist
+                if (noClickCount > desperateMessages.length) {
+                    // use a fallback message
+                    const fallbacks = [
+                        "Okay I'm running out of things to say 😅",
+                        "But I still adore you! 💕",
+                        "You're the best! 🌟",
+                        "Just so you know! ✨",
+                        "I'll wait forever! ⏳",
+                        "No rush, take your time! 🕰️",
+                        "I'm patient! 🧘",
+                        "You're worth it! 💎",
+                        "Never giving up! 🚀",
+                        "💖💖💖",
+                    ];
+                    const fbIdx = (noClickCount - desperateMessages.length) % fallbacks.length;
+                    const el = document.createElement('div');
+                    el.className = 'desperate-msg';
+                    el.textContent = fallbacks[fbIdx];
+                    desperateContainer.appendChild(el);
+                    desperateContainer.scrollTop = desperateContainer.scrollHeight;
+                }
+            }
+
+            // ─── attach events ────────────────────────────────────────
+            btnYes.addEventListener('click', handleYes);
+            btnNo.addEventListener('click', handleNo);
+
+            // ─── keyboard accessibility ──────────────────────────────
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    if (document.activeElement === btnYes) {
+                        e.preventDefault();
+                        btnYes.click();
+                    } else if (document.activeElement === btnNo) {
+                        e.preventDefault();
+                        btnNo.click();
+                    }
+                }
+            });
+
+            // ─── hint timeout ─────────────────────────────────────────
+            let hintTimeout = setTimeout(() => {
+                if (!answered && noClickCount === 0) {
+                    responseSub.textContent = '💭 psst… the "Yes" button is very nice 😉';
+                }
+            }, 4000);
+
+            const cancelHint = () => {
+                clearTimeout(hintTimeout);
+                btnYes.removeEventListener('mouseenter', cancelHint);
+                btnNo.removeEventListener('mouseenter', cancelHint);
+                document.removeEventListener('click', cancelHint);
+            };
+            btnYes.addEventListener('mouseenter', cancelHint);
+            btnNo.addEventListener('mouseenter', cancelHint);
+            document.addEventListener('click', cancelHint);
+
+            // ─── console easter egg ────────────────────────────────────
+            console.log('%c💕 Hey there! Thanks for checking the console.', 'font-size:1.2rem; color:#ad1457;');
+            console.log(`%cI hope ${CRUSH_NAME} says YES! 💖`, 'font-size:1rem; color:#d81b60;');
+            console.log('%c✨ Change the name by editing CRUSH_NAME in the script.', 'color:#6d4c5a;');
+            console.log('%c🔄 Try clicking "No" a bunch of times… 😏', 'color:#ff6f00;');
+
+        })();
+    </script>
+
+</body>
+  </html>
