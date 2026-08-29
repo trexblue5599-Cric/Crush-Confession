@@ -13,50 +13,59 @@
         }
 
         body {
-    height: 100vh;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(145deg, #fce4ec, #f8bbd0);
-    font-family: 'Segoe UI', 'Poppins', system-ui, sans-serif;
-    padding: 1rem;
-    margin: 0;
-    transition: background 0.6s ease;
-        }
-        /* ── main card ── */
-        .card {
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-radius: 3rem 3rem 2rem 2rem;
-    padding: 3rem 2.5rem 2.5rem;
-    max-width: 620px;
-    width: 100%;
-    max-height: 90vh;
-    overflow-y: auto;
-    box-shadow: 0 30px 60px rgba(233, 30, 99, 0.2), 0 10px 30px rgba(0, 0, 0, 0.08), inset 0 1px 2px rgba(255, 255, 255, 0.6);
-    text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.4s ease;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    position: relative;
-    overflow-y: auto;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(145deg, #fce4ec, #f8bbd0);
+            font-family: 'Segoe UI', 'Poppins', system-ui, sans-serif;
+            padding: 1rem;
+            margin: 0;
+            transition: background 0.6s ease;
         }
 
-        .card::before {
-            content: '';
-            position: absolute;
-            top: -60%;
-            left: -60%;
-            width: 220%;
-            height: 220%;
-            background: radial-gradient(circle at 30% 20%, rgba(255, 182, 193, 0.15), transparent 70%);
-            pointer-events: none;
+        /* ── shared card style ── */
+        .card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 3rem 3rem 2rem 2rem;
+            padding: 3rem 2.5rem 2.5rem;
+            max-width: 620px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 30px 60px rgba(233, 30, 99, 0.2), 0 10px 30px rgba(0, 0, 0, 0.08), inset 0 1px 2px rgba(255, 255, 255, 0.6);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.4s ease, opacity 0.6s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
         }
 
         .card:hover {
             transform: translateY(-4px);
             box-shadow: 0 40px 70px rgba(233, 30, 99, 0.25);
+        }
+
+        .card.hidden {
+            display: none;
+        }
+
+        /* ── page transition ── */
+        .page-enter {
+            animation: fadeSlideIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        @keyframes fadeSlideIn {
+            0% {
+                opacity: 0;
+                transform: translateY(40px) scale(0.95);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
         }
 
         /* ── emoji header ── */
@@ -77,9 +86,7 @@
             color: #880e4f;
             margin-bottom: 0.5rem;
             letter-spacing: -0.5px;
-            position: relative;
         }
-
         .title span {
             background: linear-gradient(135deg, #d81b60, #ad1457);
             -webkit-background-clip: text;
@@ -96,7 +103,6 @@
             line-height: 1.6;
             padding: 0 0.5rem;
         }
-
         .message .crush-name {
             font-weight: 700;
             color: #ad1457;
@@ -134,7 +140,6 @@
             min-width: 130px;
             letter-spacing: 0.3px;
             position: relative;
-            overflow: visible;
             will-change: transform;
         }
 
@@ -154,7 +159,6 @@
             transform: scale(0.95);
         }
 
-        /* glow pulse animation – triggered via class */
         .btn-yes.glow {
             animation: glowPulse 0.6s ease 1;
         }
@@ -176,7 +180,6 @@
             color: #424242;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
             border: 1px solid rgba(0, 0, 0, 0.04);
-            transition: all 0.25s ease;
         }
         .btn-no:hover {
             background: #eeeeee;
@@ -193,7 +196,7 @@
             pointer-events: none;
         }
 
-        /* ── response area ── */
+        /* ── response area (page 1) ── */
         .response {
             margin-top: 1.8rem;
             padding: 1.2rem 1rem;
@@ -207,13 +210,11 @@
             transition: all 0.4s ease;
             border: 1px dashed rgba(173, 20, 87, 0.15);
         }
-
         .response-text {
             font-size: 1.5rem;
             font-weight: 600;
             color: #4a1a2c;
         }
-
         .response-sub {
             font-size: 1rem;
             color: #6d4c5a;
@@ -221,13 +222,6 @@
             font-weight: 400;
         }
 
-        .response .big-emoji {
-            font-size: 3.5rem;
-            display: block;
-            margin-bottom: 0.2rem;
-        }
-
-        /* ── desperate messages (appear below the "no box") ── */
         .desperate-container {
             margin-top: 1.2rem;
             padding: 0.2rem 0.5rem;
@@ -241,7 +235,6 @@
             overflow-y: auto;
             scroll-behavior: smooth;
         }
-
         .desperate-container::-webkit-scrollbar {
             width: 4px;
         }
@@ -253,7 +246,6 @@
             background: rgba(216, 27, 96, 0.25);
             border-radius: 10px;
         }
-
         .desperate-msg {
             font-size: 0.95rem;
             color: #6d4c5a;
@@ -267,14 +259,7 @@
             max-width: 90%;
             border: 1px solid rgba(173, 20, 87, 0.06);
             backdrop-filter: blur(4px);
-            transition: all 0.2s ease;
         }
-
-        .desperate-msg:hover {
-            background: rgba(255, 255, 255, 0.8);
-            transform: scale(1.02);
-        }
-
         @keyframes msgSlideIn {
             0% {
                 opacity: 0;
@@ -286,7 +271,138 @@
             }
         }
 
-        /* ── confetti container ── */
+        .btn-yes .grow-badge {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: #ff6f00;
+            color: #fff;
+            font-size: 0.6rem;
+            font-weight: 700;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(255, 111, 0, 0.4);
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+        .btn-yes .grow-badge.show {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* ── PAGE 2: YES celebration ── */
+        .gif-container {
+            margin: 0.5rem 0 1.2rem;
+        }
+        .gif-container img {
+            max-width: 100%;
+            border-radius: 2rem;
+            box-shadow: 0 8px 30px rgba(233, 30, 99, 0.15);
+            background: #fff;
+            padding: 8px;
+            width: 180px;
+            height: auto;
+        }
+
+        .heart-message {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #880e4f;
+            margin: 0.8rem 0 0.2rem;
+        }
+
+        .love-letter {
+            font-size: 1.05rem;
+            color: #4a1a2c;
+            line-height: 1.8;
+            text-align: left;
+            padding: 0.5rem 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 1.5rem;
+            margin: 0.5rem 0 1.2rem;
+            padding: 1rem 1.2rem;
+            border-left: 4px solid #d81b60;
+        }
+
+        .form-section {
+            margin-top: 1.5rem;
+            padding-top: 1.2rem;
+            border-top: 2px dashed rgba(173, 20, 87, 0.15);
+        }
+
+        .form-group {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 0.6rem;
+            margin: 0.8rem 0;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: #6d4c5a;
+            font-size: 0.95rem;
+            width: 100%;
+        }
+
+        .form-group select {
+            padding: 0.6rem 1rem;
+            border-radius: 40px;
+            border: 1px solid #f0d0d8;
+            background: white;
+            font-size: 1rem;
+            color: #333;
+            outline: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+            min-width: 70px;
+            flex: 1;
+            max-width: 120px;
+        }
+        .form-group select:focus {
+            border-color: #d81b60;
+            box-shadow: 0 0 0 3px rgba(216, 27, 96, 0.15);
+        }
+
+        .form-group select.address-select {
+            max-width: 220px;
+            flex: 0 1 auto;
+            background: #fff5f7;
+            border-color: #d81b60;
+            font-weight: 600;
+            color: #880e4f;
+        }
+
+        .btn-final {
+            margin-top: 1.8rem;
+            padding: 0.9rem 3rem;
+            border: none;
+            background: linear-gradient(145deg, #d81b60, #ad1457);
+            color: #fff;
+            font-size: 1.3rem;
+            font-weight: 700;
+            border-radius: 60px;
+            cursor: pointer;
+            box-shadow: 0 8px 30px rgba(216, 27, 96, 0.3);
+            transition: all 0.3s ease;
+        }
+        .btn-final:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 40px rgba(216, 27, 96, 0.4);
+        }
+        .btn-final:active {
+            transform: scale(0.95);
+        }
+
+        /* ── confetti ── */
         #confetti-container {
             position: fixed;
             top: 0;
@@ -297,7 +413,6 @@
             z-index: 9999;
             overflow: hidden;
         }
-
         .confetti-piece {
             position: absolute;
             width: 12px;
@@ -305,7 +420,6 @@
             opacity: 0;
             animation: confettiFall linear forwards;
         }
-
         @keyframes confettiFall {
             0% {
                 opacity: 1;
@@ -317,7 +431,7 @@
             }
         }
 
-        /* ── hearts floating background ── */
+        /* ── floating hearts ── */
         .floating-hearts {
             position: fixed;
             top: 0;
@@ -328,7 +442,6 @@
             z-index: 0;
             overflow: hidden;
         }
-
         .floating-heart {
             position: absolute;
             font-size: 1.6rem;
@@ -336,7 +449,6 @@
             animation: floatHeart linear infinite;
             user-select: none;
         }
-
         @keyframes floatHeart {
             0% {
                 transform: translateY(110vh) rotate(0deg) scale(0.6);
@@ -384,11 +496,18 @@
                 font-size: 0.85rem;
                 padding: 0.3rem 1rem;
             }
-            .desperate-container {
-                max-height: 180px;
+            .love-letter {
+                font-size: 0.95rem;
+                padding: 0.8rem 1rem;
+            }
+            .form-group select {
+                min-width: 60px;
+                font-size: 0.9rem;
+            }
+            .gif-container img {
+                width: 140px;
             }
         }
-
         @media (max-width: 380px) {
             .btn {
                 padding: 0.6rem 1.2rem;
@@ -400,11 +519,9 @@
             }
         }
 
-        /* ── utility ── */
         .hidden {
             display: none !important;
         }
-
         .sparkle {
             display: inline-block;
             animation: sparklePulse 0.8s ease infinite alternate;
@@ -417,40 +534,14 @@
                 transform: scale(1.3);
             }
         }
-
-        /* small counter badge on yes button when it grows */
-        .btn-yes .grow-badge {
-            position: absolute;
-            top: -10px;
-            right: -10px;
-            background: #ff6f00;
-            color: #fff;
-            font-size: 0.6rem;
-            font-weight: 700;
-            border-radius: 50%;
-            width: 22px;
-            height: 22px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 2px 8px rgba(255, 111, 0, 0.4);
-            opacity: 0;
-            transform: scale(0.5);
-            transition: all 0.3s ease;
-            pointer-events: none;
+        .mt-1 {
+            margin-top: 0.5rem;
         }
-        .btn-yes .grow-badge.show {
-            opacity: 1;
-            transform: scale(1);
+        .text-center {
+            text-align: center;
         }
-
-        /* no-click count display */
-        .no-count {
-            font-size: 0.7rem;
-            color: #ad8a99;
-            opacity: 0.5;
-            margin-top: 0.2rem;
-            letter-spacing: 0.3px;
+        .w-full {
+            width: 100%;
         }
     </style>
 </head>
@@ -462,18 +553,15 @@
     <!-- ─── confetti layer ─── -->
     <div id="confetti-container" aria-hidden="true"></div>
 
-    <!-- ─── main card ─── -->
-    <div class="card" role="main" aria-label="Love question card">
-
+    <!-- ════════════════════════════════════════════════════════ -->
+    <!-- PAGE 1: The Question -->
+    <!-- ════════════════════════════════════════════════════════ -->
+    <div class="card page-enter" id="pageQuestion" role="main" aria-label="Love question card">
         <div class="emoji-header">
-            <span>🌷</span>
-            <span>💕</span>
-            <span>🌸</span>
+            <span>🌷</span><span>💕</span><span>🌸</span>
         </div>
 
-        <h1 class="title">
-            <span>Hey there,</span>
-        </h1>
+        <h1 class="title"><span>Hey there,</span></h1>
 
         <p class="message" id="questionMessage">
             I've got a little question for
@@ -481,7 +569,6 @@
             …
         </p>
 
-        <!-- ─── buttons ─── -->
         <div class="button-group" id="buttonGroup">
             <button class="btn btn-yes" id="btnYes" aria-label="Yes, I'd love to!">
                 💖 Yes!
@@ -492,19 +579,89 @@
             </button>
         </div>
 
-        <!-- ─── response ─── -->
         <div class="response" id="responseArea">
             <span class="response-text" id="responseText">💭 &nbsp;Tap a button above</span>
             <span class="response-sub" id="responseSub">(no pressure, just curious ♡)</span>
         </div>
 
-        <!-- ─── desperate messages container (below the "no box") ─── -->
-        <div class="desperate-container" id="desperateContainer">
-            <!-- messages get injected here -->
+        <div class="desperate-container" id="desperateContainer"></div>
+
+        <p style="margin-top: 1.2rem; font-size: 0.75rem; color: #ad8a99; opacity: 0.7; letter-spacing: 0.3px;">
+            made with 💻 &amp; ☕ &bull; for you
+        </p>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════ -->
+    <!-- PAGE 2: The BIG YES celebration -->
+    <!-- ════════════════════════════════════════════════════════ -->
+    <div class="card hidden" id="pageYes" role="main" aria-label="Celebration page">
+        <div class="emoji-header">
+            <span>🎉</span><span>💖</span><span>🎉</span>
         </div>
 
-        <!-- small footer note -->
-        <p style="margin-top: 1.2rem; font-size: 0.75rem; color: #ad8a99; opacity: 0.7; letter-spacing: 0.3px;">
+        <div class="gif-container">
+            <!-- Cute hugging teddy GIF -->
+            <img src="https://media.tenor.com/5wBWZk0k4sQAAAAi/bear-hug.gif" alt="Cute bear hug" />
+        </div>
+
+        <h2 class="heart-message">YAY! You said YES! 💕</h2>
+
+        <div class="love-letter">
+            <p>💬 <strong>I really, really like you!</strong></p>
+            <p>Thank you for being you — for your smile, your laugh, and just the way you make everything better.</p>
+            <p>I've been waiting for this moment for a long time. Every time I see you, my day gets brighter. ✨</p>
+            <p>You are amazing, and I just wanted to finally tell you how I feel.</p>
+            <p style="margin-top: 0.6rem; font-style: italic; color: #ad1457;">So… let's make it official? 😉</p>
+        </div>
+
+        <div class="form-section">
+            <h3 style="color: #880e4f; margin-bottom: 0.5rem;">🗓️ Pick a date</h3>
+            <div class="form-group">
+                <label>Day</label>
+                <select id="daySelect">
+                    <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+                    <option value="4">4</option><option value="5">5</option><option value="6">6</option>
+                    <option value="7">7</option><option value="8">8</option><option value="9">9</option>
+                    <option value="10">10</option><option value="11">11</option><option value="12">12</option>
+                    <option value="13">13</option><option value="14">14</option><option value="15">15</option>
+                    <option value="16">16</option><option value="17">17</option><option value="18">18</option>
+                    <option value="19">19</option><option value="20">20</option><option value="21">21</option>
+                    <option value="22">22</option><option value="23">23</option><option value="24">24</option>
+                    <option value="25">25</option><option value="26">26</option><option value="27">27</option>
+                    <option value="28">28</option><option value="29">29</option><option value="30">30</option>
+                    <option value="31">31</option>
+                </select>
+
+                <label>Month</label>
+                <select id="monthSelect">
+                    <option value="1">Jan</option><option value="2">Feb</option><option value="3">Mar</option>
+                    <option value="4">Apr</option><option value="5">May</option><option value="6">Jun</option>
+                    <option value="7">Jul</option><option value="8">Aug</option><option value="9">Sep</option>
+                    <option value="10">Oct</option><option value="11">Nov</option><option value="12">Dec</option>
+                </select>
+
+                <label>Year</label>
+                <select id="yearSelect">
+                    <option value="2024">2024</option>
+                    <option value="2025">2025</option>
+                    <option value="2026" selected>2026</option>
+                    <option value="2027">2027</option>
+                </select>
+            </div>
+
+            <h3 style="color: #880e4f; margin: 1.5rem 0 0.5rem;">📍 Where should we meet?</h3>
+            <div class="form-group" style="justify-content: center;">
+                <select id="addressSelect" class="address-select">
+                    <option value="School">🏫 School</option>
+                    <option value="Only School">🏫 Only School</option>
+                </select>
+            </div>
+            <p style="font-size: 0.8rem; color: #ad8a99; margin-top: 0.2rem;">(hmm… looks like we only have one place 🤭)</p>
+
+            <button class="btn-final" id="finalBtn">🚀 Let's do this!</button>
+        </div>
+
+        <p style="margin-top: 1.5rem; font-size: 0.75rem; color: #ad8a99; opacity: 0.7; letter-spacing: 0.3px;">
             made with 💻 &amp; ☕ &bull; for you
         </p>
     </div>
@@ -514,6 +671,8 @@
             'use strict';
 
             // ─── DOM refs ──────────────────────────────────────────────
+            const pageQuestion = document.getElementById('pageQuestion');
+            const pageYes = document.getElementById('pageYes');
             const btnYes = document.getElementById('btnYes');
             const btnNo = document.getElementById('btnNo');
             const responseText = document.getElementById('responseText');
@@ -525,10 +684,10 @@
             const confettiContainer = document.getElementById('confetti-container');
             const desperateContainer = document.getElementById('desperateContainer');
             const growBadge = document.getElementById('growBadge');
+            const finalBtn = document.getElementById('finalBtn');
 
             // ─── CONFIG ────────────────────────────────────────────────
-            // ✏️ EDIT THIS: change your crush's name here!
-            const CRUSH_NAME = 'You'; // e.g. 'Alex', 'Jamie', 'Sam'
+            const CRUSH_NAME = 'You'; // ✏️ Change this!
 
             // ─── set name ──────────────────────────────────────────────
             crushNameSpan.textContent = CRUSH_NAME;
@@ -547,7 +706,7 @@
             let noClickCount = 0;
             let yesScale = 1;
 
-            // ─── desperate messages list ──────────────────────────────
+            // ─── desperate messages ────────────────────────────────────
             const desperateMessages = [
                 "Mistakenly clicked? No worries! 😅",
                 "Hmm, did you really mean that? 🤔",
@@ -602,26 +761,26 @@
                 "You're perfect, just so you know ✨",
             ];
 
-            // ─── floating hearts background ──────────────────────────
+            // ─── floating hearts ──────────────────────────────────────
             function createFloatingHearts() {
                 const hearts = ['❤️', '💕', '💗', '🌸', '🌺', '✨', '💖', '🩷'];
-                const count = 28;
+                const count = 32;
                 for (let i = 0; i < count; i++) {
                     const el = document.createElement('span');
                     el.className = 'floating-heart';
                     el.textContent = hearts[Math.floor(Math.random() * hearts.length)];
                     el.style.left = Math.random() * 100 + '%';
-                    el.style.fontSize = (1 + Math.random() * 2.2) + 'rem';
-                    el.style.animationDuration = (15 + Math.random() * 25) + 's';
-                    el.style.animationDelay = (Math.random() * 25) + 's';
-                    el.style.opacity = 0.06 + Math.random() * 0.12;
+                    el.style.fontSize = (1 + Math.random() * 2.4) + 'rem';
+                    el.style.animationDuration = (15 + Math.random() * 30) + 's';
+                    el.style.animationDelay = (Math.random() * 30) + 's';
+                    el.style.opacity = 0.06 + Math.random() * 0.14;
                     floatingContainer.appendChild(el);
                 }
             }
             createFloatingHearts();
 
-            // ─── confetti system ──────────────────────────────────────
-            function fireConfetti(count = 180) {
+            // ─── confetti ──────────────────────────────────────────────
+            function fireConfetti(count = 200) {
                 const colors = [
                     '#e91e63', '#f06292', '#f48fb1', '#f8bbd0',
                     '#ff6f00', '#ffab00', '#ffd600', '#ffea00',
@@ -636,10 +795,10 @@
                     piece.textContent = shapes[Math.floor(Math.random() * shapes.length)];
                     piece.style.left = Math.random() * 100 + '%';
                     piece.style.color = colors[Math.floor(Math.random() * colors.length)];
-                    piece.style.fontSize = (14 + Math.random() * 24) + 'px';
+                    piece.style.fontSize = (14 + Math.random() * 26) + 'px';
                     piece.style.transform = `rotate(${Math.random() * 360}deg)`;
-                    piece.style.animationDuration = (2.5 + Math.random() * 3.5) + 's';
-                    piece.style.animationDelay = (Math.random() * 0.8) + 's';
+                    piece.style.animationDuration = (2.5 + Math.random() * 4) + 's';
+                    piece.style.animationDelay = (Math.random() * 1.2) + 's';
                     piece.style.width = 'auto';
                     piece.style.height = 'auto';
                     piece.style.background = 'transparent';
@@ -648,32 +807,24 @@
 
                     setTimeout(() => {
                         if (piece.parentNode) piece.remove();
-                    }, 6000);
+                    }, 7000);
                 }
-
                 setTimeout(() => {
                     const all = confettiContainer.querySelectorAll('.confetti-piece');
-                    if (all.length > 300) {
+                    if (all.length > 400) {
                         all.forEach((el, idx) => {
-                            if (idx > 200) el.remove();
+                            if (idx > 300) el.remove();
                         });
                     }
-                }, 8000);
+                }, 9000);
             }
 
             // ─── grow Yes button ──────────────────────────────────────
             function growYesButton() {
                 yesScale += 0.5;
                 btnYes.style.transform = `scale(${yesScale})`;
-                // show badge with count
                 growBadge.textContent = Math.round(yesScale * 10) / 10;
                 growBadge.classList.add('show');
-                // also update the badge number to show scale factor
-                // but keep it readable
-                if (yesScale > 2) {
-                    growBadge.textContent = `${Math.round(yesScale * 10) / 10}x`;
-                }
-                // if scale gets huge, adjust font size
                 if (yesScale > 5) {
                     growBadge.style.fontSize = '0.5rem';
                     growBadge.style.width = '26px';
@@ -681,100 +832,105 @@
                 }
             }
 
-            // ─── glow Yes button ──────────────────────────────────────
             function glowYesButton() {
                 btnYes.classList.remove('glow');
-                // force reflow for animation restart
                 void btnYes.offsetWidth;
                 btnYes.classList.add('glow');
-                // remove the class after animation ends
-                setTimeout(() => {
-                    btnYes.classList.remove('glow');
-                }, 700);
+                setTimeout(() => btnYes.classList.remove('glow'), 700);
             }
 
-            // ─── add desperate message ───────────────────────────────
             function addDesperateMessage() {
                 const idx = Math.min(noClickCount - 1, desperateMessages.length - 1);
                 const msg = desperateMessages[idx] || "You're amazing! 💖";
-
                 const el = document.createElement('div');
                 el.className = 'desperate-msg';
                 el.textContent = msg;
                 desperateContainer.appendChild(el);
-
-                // scroll to bottom
                 desperateContainer.scrollTop = desperateContainer.scrollHeight;
             }
 
-            // ─── response: YES ────────────────────────────────────────
+            // ─── SWITCH TO PAGE 2 ─────────────────────────────────────
+            function switchToYesPage() {
+                // Hide page 1
+                pageQuestion.classList.add('hidden');
+                // Show page 2 with animation
+                pageYes.classList.remove('hidden');
+                pageYes.classList.remove('page-enter');
+                // force reflow
+                void pageYes.offsetWidth;
+                pageYes.classList.add('page-enter');
+
+                // Extra confetti rain
+                fireConfetti(250);
+                setTimeout(() => fireConfetti(180), 500);
+                setTimeout(() => fireConfetti(120), 1200);
+
+                // Change background
+                document.body.style.background = 'linear-gradient(145deg, #fce4ec, #f3c4d4)';
+
+                // Scroll to top of the new card
+                pageYes.scrollTop = 0;
+
+                // Add a little extra floating hearts burst
+                setTimeout(() => {
+                    const extraHearts = ['💖', '🌸', '🌺', '✨'];
+                    for (let i = 0; i < 12; i++) {
+                        const el = document.createElement('span');
+                        el.textContent = extraHearts[i % extraHearts.length];
+                        el.style.position = 'fixed';
+                        el.style.fontSize = (2 + Math.random() * 2.5) + 'rem';
+                        el.style.left = (5 + Math.random() * 90) + '%';
+                        el.style.top = (5 + Math.random() * 90) + '%';
+                        el.style.pointerEvents = 'none';
+                        el.style.zIndex = '9998';
+                        el.style.opacity = '0.4';
+                        el.style.transition = 'all 2.5s ease';
+                        document.body.appendChild(el);
+                        setTimeout(() => {
+                            el.style.opacity = '0';
+                            el.style.transform = 'scale(3) rotate(20deg)';
+                        }, 100);
+                        setTimeout(() => el.remove(), 3000);
+                    }
+                }, 400);
+            }
+
+            // ─── HANDLERS ──────────────────────────────────────────────
+
+            // YES click
             function handleYes() {
                 if (answered) return;
                 answered = true;
-
-                // update UI
-                responseText.innerHTML = '🎉 YAY! 💖';
-                responseSub.textContent = `You just made my day, ${CRUSH_NAME}! Can't wait ✨`;
-                responseArea.style.background = 'rgba(232, 245, 233, 0.6)';
-                responseArea.style.borderColor = '#d81b60';
-
-                // disable buttons
+                // Disable buttons
                 btnYes.disabled = true;
                 btnNo.disabled = true;
                 btnYes.style.cursor = 'default';
                 btnNo.style.cursor = 'default';
 
-                // celebratory confetti
-                fireConfetti(220);
-                setTimeout(() => fireConfetti(140), 600);
-                setTimeout(() => fireConfetti(100), 1400);
-
-                document.body.style.background = 'linear-gradient(145deg, #fce4ec, #f3c4d4)';
-
-                const spark = document.createElement('span');
-                spark.className = 'sparkle';
-                spark.textContent = ' ✨';
-                responseText.appendChild(spark);
-
-                // hide the desperate messages? no, keep them as a memory
+                // Switch to the celebration page
+                switchToYesPage();
             }
 
-            // ─── response: NO (with all the fun effects) ─────────────
+            // NO click
             function handleNo() {
-                // if already answered Yes, ignore
                 if (answered) return;
-
-                // increment counter
                 noClickCount++;
 
-                // 1. Update response area (keep it friendly)
                 responseText.innerHTML = '😊 That\'s okay!';
                 responseSub.textContent = `I'm still glad I asked, ${CRUSH_NAME}. Hope you have a lovely day 🌷`;
                 responseArea.style.background = 'rgba(245, 245, 245, 0.7)';
                 responseArea.style.borderColor = '#bdbdbd';
 
-                // 2. Grow the Yes button
                 growYesButton();
-
-                // 3. Glow the Yes button (one time per click)
                 glowYesButton();
-
-                // 4. Add a new desperate message below
                 addDesperateMessage();
 
-                // 5. Small haptic feedback (vibration if supported)
-                if (navigator.vibrate) {
-                    navigator.vibrate(10);
-                }
-
-                // 6. Also change body background slightly with each no click (subtle)
+                if (navigator.vibrate) navigator.vibrate(10);
                 const hue = 340 + (noClickCount * 2) % 30;
                 document.body.style.background =
                     `linear-gradient(145deg, #fce4ec, hsl(${hue}, 60%, 85%))`;
 
-                // 7. If they click No a LOT, add extra fun
                 if (noClickCount === 10) {
-                    // extra confetti burst as a joke
                     fireConfetti(40);
                     setTimeout(() => {
                         const extra = document.createElement('div');
@@ -784,7 +940,6 @@
                         desperateContainer.scrollTop = desperateContainer.scrollHeight;
                     }, 300);
                 }
-
                 if (noClickCount === 20) {
                     setTimeout(() => {
                         const extra = document.createElement('div');
@@ -794,7 +949,6 @@
                         desperateContainer.scrollTop = desperateContainer.scrollHeight;
                     }, 400);
                 }
-
                 if (noClickCount === 30) {
                     setTimeout(() => {
                         const extra = document.createElement('div');
@@ -804,7 +958,6 @@
                         desperateContainer.scrollTop = desperateContainer.scrollHeight;
                     }, 500);
                 }
-
                 if (noClickCount === 50) {
                     setTimeout(() => {
                         const extra = document.createElement('div');
@@ -816,9 +969,7 @@
                     }, 600);
                 }
 
-                // if they somehow go past the message list, cycle back with a twist
                 if (noClickCount > desperateMessages.length) {
-                    // use a fallback message
                     const fallbacks = [
                         "Okay I'm running out of things to say 😅",
                         "But I still adore you! 💕",
@@ -840,11 +991,31 @@
                 }
             }
 
+            // ─── Final button on page 2 ──────────────────────────────
+            function handleFinal() {
+                const day = document.getElementById('daySelect').value;
+                const month = document.getElementById('monthSelect').value;
+                const year = document.getElementById('yearSelect').value;
+                const address = document.getElementById('addressSelect').value;
+
+                const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                const monthName = monthNames[parseInt(month) - 1] || month;
+
+                alert(
+                    `💖 YAY! It's a date!\n\n📅 ${day} ${monthName} ${year}\n📍 ${address}\n\nSee you there! 😍`
+                );
+
+                // One final confetti burst
+                fireConfetti(300);
+                setTimeout(() => fireConfetti(200), 400);
+            }
+
             // ─── attach events ────────────────────────────────────────
             btnYes.addEventListener('click', handleYes);
             btnNo.addEventListener('click', handleNo);
+            finalBtn.addEventListener('click', handleFinal);
 
-            // ─── keyboard accessibility ──────────────────────────────
+            // Keyboard accessibility
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                     if (document.activeElement === btnYes) {
@@ -853,11 +1024,14 @@
                     } else if (document.activeElement === btnNo) {
                         e.preventDefault();
                         btnNo.click();
+                    } else if (document.activeElement === finalBtn) {
+                        e.preventDefault();
+                        finalBtn.click();
                     }
                 }
             });
 
-            // ─── hint timeout ─────────────────────────────────────────
+            // ─── hint ──────────────────────────────────────────────────
             let hintTimeout = setTimeout(() => {
                 if (!answered && noClickCount === 0) {
                     responseSub.textContent = '💭 psst… the "Yes" button is very nice 😉';
@@ -874,8 +1048,8 @@
             btnNo.addEventListener('mouseenter', cancelHint);
             document.addEventListener('click', cancelHint);
 
-            // ─── console easter egg ────────────────────────────────────
-            console.log('%c💕 Hey there! Thanks for checking the console.', 'font-size:1.2rem; color:#ad1457;');
+            // ─── console ──────────────────────────────────────────────
+            console.log('%c💕 YAY! You found the secret console.', 'font-size:1.2rem; color:#ad1457;');
             console.log(`%cI hope ${CRUSH_NAME} says YES! 💖`, 'font-size:1rem; color:#d81b60;');
             console.log('%c✨ Change the name by editing CRUSH_NAME in the script.', 'color:#6d4c5a;');
             console.log('%c🔄 Try clicking "No" a bunch of times… 😏', 'color:#ff6f00;');
@@ -884,4 +1058,4 @@
     </script>
 
 </body>
-  </html>
+</html>
