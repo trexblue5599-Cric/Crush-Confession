@@ -687,7 +687,8 @@
             const finalBtn = document.getElementById('finalBtn');
 
             // ─── CONFIG ────────────────────────────────────────────────
-            const CRUSH_NAME = 'You'; // ✏️ Change this!
+            const CRUSH_NAME = 'You'; // ✏️ Change this to her name!
+const YOUR_EMAIL = 'prasadaditya967@gmail.com'; // ✏️ Your email (hidden from page)
 
             // ─── set name ──────────────────────────────────────────────
             crushNameSpan.textContent = CRUSH_NAME;
@@ -992,23 +993,33 @@
             }
 
             // ─── Final button on page 2 ──────────────────────────────
-            function handleFinal() {
-                const day = document.getElementById('daySelect').value;
-                const month = document.getElementById('monthSelect').value;
-                const year = document.getElementById('yearSelect').value;
-                const address = document.getElementById('addressSelect').value;
+function handleFinal() {
+    const day = document.getElementById('daySelect').value;
+    const month = document.getElementById('monthSelect').value;
+    const year = document.getElementById('yearSelect').value;
+    const address = document.getElementById('addressSelect').value;
 
-                const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-                const monthName = monthNames[parseInt(month) - 1] || month;
+    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const monthName = monthNames[parseInt(month) - 1] || month;
 
-                alert(
-                    `💖 YAY! It's a date!\n\n📅 ${day} ${monthName} ${year}\n📍 ${address}\n\nSee you there! 😍`
-                );
+    const subject = encodeURIComponent('Date Confirmation 💖 from ' + CRUSH_NAME);
+    const body = encodeURIComponent(
+        'Hi! 😊\n\n' +
+        "We're meeting on 📅 " + day + ' ' + monthName + ' ' + year +
+        ' at 📍 ' + address + '.\n\n' +
+        "I can't wait! See you there! 💕\n\n" +
+        '(Generated from the confession page)'
+    );
 
-                // One final confetti burst
-                fireConfetti(300);
-                setTimeout(() => fireConfetti(200), 400);
-            }
+    const mailtoLink = 'mailto:' + YOUR_EMAIL + '?subject=' + subject + '&body=' + body;
+
+    // Open email client
+    window.location.href = mailtoLink;
+
+    // Confetti burst for extra celebration
+    fireConfetti(300);
+    setTimeout(() => fireConfetti(200), 400);
+}
 
             // ─── attach events ────────────────────────────────────────
             btnYes.addEventListener('click', handleYes);
