@@ -554,19 +554,44 @@
     <div id="confetti-container" aria-hidden="true"></div>
 
     <!-- ════════════════════════════════════════════════════════ -->
+    <!-- PAGE 0: Intro / Warm-up screen -->
+    <!-- ════════════════════════════════════════════════════════ -->
+    <div class="card page-enter" id="pageIntro" role="main" aria-label="Intro screen">
+        <div class="emoji-header">
+            <span>💌</span>
+        </div>
+
+        <h1 class="title"><span>Hey…</span></h1>
+
+        <p class="message" style="font-size: 1.3rem; margin-top: 1rem;">
+            I have a question for you 👀
+        </p>
+
+        <p style="font-size: 1rem; color: #6d4c5a; margin-bottom: 2rem;">
+            But before that… just tap the button below 💕
+        </p>
+
+        <div class="button-group">
+            <button class="btn btn-yes" id="btnOkay" style="min-width: 180px;">
+                😊 Okay
+            </button>
+        </div>
+
+        <p style="margin-top: 1.5rem; font-size: 0.75rem; color: #ad8a99; opacity: 0.7;">
+            (promise it's nothing scary 🤭)
+        </p>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════ -->
     <!-- PAGE 1: The Question -->
     <!-- ════════════════════════════════════════════════════════ -->
-    <div class="card page-enter" id="pageQuestion" role="main" aria-label="Love question card">
+    <div class="card hidden" id="pageQuestion" role="main" aria-label="Love question card">
         <div class="emoji-header">
             <span>🌷</span><span>💕</span><span>🌸</span>
         </div>
 
-        <h1 class="title"><span>Hey there,</span></h1>
-
-        <p class="message" id="questionMessage">
-            I've got a little question for
-            <span class="crush-name" id="crushNameDisplay">you</span>
-            …
+        <p class="message" id="questionMessage" style="font-size: 1.3rem;">
+            I think we would look perfect together… do you think the same? 👀💕
         </p>
 
         <div class="button-group" id="buttonGroup">
@@ -600,8 +625,7 @@
         </div>
 
         <div class="gif-container">
-            <!-- Cute hugging teddy GIF -->
-            <img src="lol.gif" alt="Cute bear hug" />
+            <img src="lol.gif" alt="Cute hug" />
         </div>
 
         <h2 class="heart-message">YAY! You said YES! 💕</h2>
@@ -623,450 +647,4 @@
                     <option value="4">4</option><option value="5">5</option><option value="6">6</option>
                     <option value="7">7</option><option value="8">8</option><option value="9">9</option>
                     <option value="10">10</option><option value="11">11</option><option value="12">12</option>
-                    <option value="13">13</option><option value="14">14</option><option value="15">15</option>
-                    <option value="16">16</option><option value="17">17</option><option value="18">18</option>
-                    <option value="19">19</option><option value="20">20</option><option value="21">21</option>
-                    <option value="22">22</option><option value="23">23</option><option value="24">24</option>
-                    <option value="25">25</option><option value="26">26</option><option value="27">27</option>
-                    <option value="28">28</option><option value="29">29</option><option value="30">30</option>
-                    <option value="31">31</option>
-                </select>
-
-                <label>Month</label>
-                <select id="monthSelect">
-                    <option value="1">Jan</option><option value="2">Feb</option><option value="3">Mar</option>
-                    <option value="4">Apr</option><option value="5">May</option><option value="6">Jun</option>
-                    <option value="7">Jul</option><option value="8">Aug</option><option value="9">Sep</option>
-                    <option value="10">Oct</option><option value="11">Nov</option><option value="12">Dec</option>
-                </select>
-
-                <label>Year</label>
-                <select id="yearSelect">
-                    <option value="2024">2024</option>
-                    <option value="2025">2025</option>
-                    <option value="2026" selected>2026</option>
-                    <option value="2027">2027</option>
-                </select>
-            </div>
-
-            <h3 style="color: #880e4f; margin: 1.5rem 0 0.5rem;">📍 Where should we meet?</h3>
-            <div class="form-group" style="justify-content: center;">
-                <select id="addressSelect" class="address-select">
-                    <option value="School">🏫 School</option>
-                    <option value="Only School">🏫 Only School</option>
-                </select>
-            </div>
-            <p style="font-size: 0.8rem; color: #ad8a99; margin-top: 0.2rem;">(hmm… looks like we only have one place 🤭)</p>
-
-            <button class="btn-final" id="finalBtn">🚀 Let's do this!</button>
-        </div>
-
-        <p style="margin-top: 1.5rem; font-size: 0.75rem; color: #ad8a99; opacity: 0.7; letter-spacing: 0.3px;">
-            made with 💻 &amp; ☕ &bull; for you
-        </p>
-    </div>
-
-    <script>
-        (function() {
-            'use strict';
-
-            // ─── DOM refs ──────────────────────────────────────────────
-            const pageQuestion = document.getElementById('pageQuestion');
-            const pageYes = document.getElementById('pageYes');
-            const btnYes = document.getElementById('btnYes');
-            const btnNo = document.getElementById('btnNo');
-            const responseText = document.getElementById('responseText');
-            const responseSub = document.getElementById('responseSub');
-            const responseArea = document.getElementById('responseArea');
-            const questionMsg = document.getElementById('questionMessage');
-            const crushNameSpan = document.getElementById('crushNameDisplay');
-            const floatingContainer = document.getElementById('floatingHearts');
-            const confettiContainer = document.getElementById('confetti-container');
-            const desperateContainer = document.getElementById('desperateContainer');
-            const growBadge = document.getElementById('growBadge');
-            const finalBtn = document.getElementById('finalBtn');
-
-            // ─── CONFIG ────────────────────────────────────────────────
-            const CRUSH_NAME = 'You'; // ✏️ Change this to her name!
-const YOUR_EMAIL = 'prasadaditya967@gmail.com'; // ✏️ Your email (hidden from page)
-
-            // ─── set name ──────────────────────────────────────────────
-            crushNameSpan.textContent = CRUSH_NAME;
-            const msgParts = questionMsg.innerHTML.split(
-                '<span class="crush-name" id="crushNameDisplay">');
-            if (msgParts.length === 2) {
-                const after = msgParts[1].split('</span>');
-                if (after.length === 2) {
-                    questionMsg.innerHTML =
-                        `${msgParts[0]}<span class="crush-name" id="crushNameDisplay">${CRUSH_NAME}</span>${after[1]}`;
-                }
-            }
-
-            // ─── state ──────────────────────────────────────────────────
-            let answered = false;
-            let noClickCount = 0;
-            let yesScale = 1;
-
-            // ─── desperate messages ────────────────────────────────────
-            const desperateMessages = [
-                "Mistakenly clicked? No worries! 😅",
-                "Hmm, did you really mean that? 🤔",
-                "Okay, but… really? 😅",
-                "Again? You're breaking my heart! 💔",
-                "Please? 🙏",
-                "Pretty please? 🥺",
-                "With a cherry on top? 🍒",
-                "I'll buy you dinner! 🍕",
-                "Anything you want! 🎁",
-                "Okay now you're just teasing me 😏",
-                "I'm not giving up! 💪",
-                "You're making this hard 😅",
-                "Just say yes already! 😂",
-                "My heart can't take this 💔",
-                "Okay I'll stop… maybe 😉",
-                "Last chance? 🤞",
-                "Okay fine, you win 😅",
-                "But seriously though? 🥺",
-                "I'll be your best friend! 👯",
-                "I'll do anything! 🫣",
-                "Okay I'm officially obsessed 😍",
-                "You're killing me smalls! 😂",
-                "I'll bake you cookies! 🍪",
-                "I'll serenade you! 🎵",
-                "I'll write you a poem! 📝",
-                "I'll build you a website! 💻",
-                "I'll love you forever! 💕",
-                "Okay I'll just keep asking… 🙃",
-                "You're my favorite person! 🌟",
-                "I'll never give up on you! 💪",
-                "You're the best thing ever! 🌈",
-                "I'll bring you flowers! 🌻",
-                "I'll learn to cook for you! 🍳",
-                "I'll watch your favorite show! 📺",
-                "I'll be your personal assistant! 📋",
-                "I'll carry your bags! 👜",
-                "I'll give you the last slice! 🍕",
-                "I'll share my fries! 🍟",
-                "I'll let you pick the movie! 🎬",
-                "I'll drive you anywhere! 🚗",
-                "I'll sing you a lullaby! 🎶",
-                "I'll draw you a picture! 🎨",
-                "I'll write you a song! 🎵",
-                "I'll make you a playlist! 🎧",
-                "I'll be your personal cheerleader! 📣",
-                "I'll never say no to you again! 🙈",
-                "Okay this is getting out of hand 😂",
-                "But I still love you though! 💕",
-                "Just say yes and end my suffering! 😭",
-                "I'll give you the world! 🌍",
-                "You're perfect, just so you know ✨",
-            ];
-
-            // ─── floating hearts ──────────────────────────────────────
-            function createFloatingHearts() {
-                const hearts = ['❤️', '💕', '💗', '🌸', '🌺', '✨', '💖', '🩷'];
-                const count = 32;
-                for (let i = 0; i < count; i++) {
-                    const el = document.createElement('span');
-                    el.className = 'floating-heart';
-                    el.textContent = hearts[Math.floor(Math.random() * hearts.length)];
-                    el.style.left = Math.random() * 100 + '%';
-                    el.style.fontSize = (1 + Math.random() * 2.4) + 'rem';
-                    el.style.animationDuration = (15 + Math.random() * 30) + 's';
-                    el.style.animationDelay = (Math.random() * 30) + 's';
-                    el.style.opacity = 0.06 + Math.random() * 0.14;
-                    floatingContainer.appendChild(el);
-                }
-            }
-            createFloatingHearts();
-
-            // ─── confetti ──────────────────────────────────────────────
-            function fireConfetti(count = 200) {
-                const colors = [
-                    '#e91e63', '#f06292', '#f48fb1', '#f8bbd0',
-                    '#ff6f00', '#ffab00', '#ffd600', '#ffea00',
-                    '#00c853', '#69f0ae', '#40c4ff', '#2979ff',
-                    '#d500f9', '#ea80fc', '#ff4081', '#ff80ab'
-                ];
-                const shapes = ['■', '●', '▲', '★', '♦', '❤'];
-
-                for (let i = 0; i < count; i++) {
-                    const piece = document.createElement('div');
-                    piece.className = 'confetti-piece';
-                    piece.textContent = shapes[Math.floor(Math.random() * shapes.length)];
-                    piece.style.left = Math.random() * 100 + '%';
-                    piece.style.color = colors[Math.floor(Math.random() * colors.length)];
-                    piece.style.fontSize = (14 + Math.random() * 26) + 'px';
-                    piece.style.transform = `rotate(${Math.random() * 360}deg)`;
-                    piece.style.animationDuration = (2.5 + Math.random() * 4) + 's';
-                    piece.style.animationDelay = (Math.random() * 1.2) + 's';
-                    piece.style.width = 'auto';
-                    piece.style.height = 'auto';
-                    piece.style.background = 'transparent';
-                    piece.style.borderRadius = '0';
-                    confettiContainer.appendChild(piece);
-
-                    setTimeout(() => {
-                        if (piece.parentNode) piece.remove();
-                    }, 7000);
-                }
-                setTimeout(() => {
-                    const all = confettiContainer.querySelectorAll('.confetti-piece');
-                    if (all.length > 400) {
-                        all.forEach((el, idx) => {
-                            if (idx > 300) el.remove();
-                        });
-                    }
-                }, 9000);
-            }
-
-            // ─── grow Yes button ──────────────────────────────────────
-            function growYesButton() {
-                yesScale += 0.5;
-                btnYes.style.transform = `scale(${yesScale})`;
-                growBadge.textContent = Math.round(yesScale * 10) / 10;
-                growBadge.classList.add('show');
-                if (yesScale > 5) {
-                    growBadge.style.fontSize = '0.5rem';
-                    growBadge.style.width = '26px';
-                    growBadge.style.height = '26px';
-                }
-            }
-
-            function glowYesButton() {
-                btnYes.classList.remove('glow');
-                void btnYes.offsetWidth;
-                btnYes.classList.add('glow');
-                setTimeout(() => btnYes.classList.remove('glow'), 700);
-            }
-
-            function addDesperateMessage() {
-                const idx = Math.min(noClickCount - 1, desperateMessages.length - 1);
-                const msg = desperateMessages[idx] || "You're amazing! 💖";
-                const el = document.createElement('div');
-                el.className = 'desperate-msg';
-                el.textContent = msg;
-                desperateContainer.appendChild(el);
-                desperateContainer.scrollTop = desperateContainer.scrollHeight;
-            }
-
-            // ─── SWITCH TO PAGE 2 ─────────────────────────────────────
-            function switchToYesPage() {
-                // Hide page 1
-                pageQuestion.classList.add('hidden');
-                // Show page 2 with animation
-                pageYes.classList.remove('hidden');
-                pageYes.classList.remove('page-enter');
-                // force reflow
-                void pageYes.offsetWidth;
-                pageYes.classList.add('page-enter');
-
-                // Extra confetti rain
-                fireConfetti(250);
-                setTimeout(() => fireConfetti(180), 500);
-                setTimeout(() => fireConfetti(120), 1200);
-
-                // Change background
-                document.body.style.background = 'linear-gradient(145deg, #fce4ec, #f3c4d4)';
-
-                // Scroll to top of the new card
-                pageYes.scrollTop = 0;
-
-                // Add a little extra floating hearts burst
-                setTimeout(() => {
-                    const extraHearts = ['💖', '🌸', '🌺', '✨'];
-                    for (let i = 0; i < 12; i++) {
-                        const el = document.createElement('span');
-                        el.textContent = extraHearts[i % extraHearts.length];
-                        el.style.position = 'fixed';
-                        el.style.fontSize = (2 + Math.random() * 2.5) + 'rem';
-                        el.style.left = (5 + Math.random() * 90) + '%';
-                        el.style.top = (5 + Math.random() * 90) + '%';
-                        el.style.pointerEvents = 'none';
-                        el.style.zIndex = '9998';
-                        el.style.opacity = '0.4';
-                        el.style.transition = 'all 2.5s ease';
-                        document.body.appendChild(el);
-                        setTimeout(() => {
-                            el.style.opacity = '0';
-                            el.style.transform = 'scale(3) rotate(20deg)';
-                        }, 100);
-                        setTimeout(() => el.remove(), 3000);
-                    }
-                }, 400);
-            }
-
-            // ─── HANDLERS ──────────────────────────────────────────────
-
-            // YES click
-            function handleYes() {
-                if (answered) return;
-                answered = true;
-                // Disable buttons
-                btnYes.disabled = true;
-                btnNo.disabled = true;
-                btnYes.style.cursor = 'default';
-                btnNo.style.cursor = 'default';
-
-                // Switch to the celebration page
-                switchToYesPage();
-            }
-
-            // NO click
-            function handleNo() {
-                if (answered) return;
-                noClickCount++;
-
-                responseText.innerHTML = '😊 That\'s okay!';
-                responseSub.textContent = `I'm still glad I asked, ${CRUSH_NAME}. Hope you have a lovely day 🌷`;
-                responseArea.style.background = 'rgba(245, 245, 245, 0.7)';
-                responseArea.style.borderColor = '#bdbdbd';
-
-                growYesButton();
-                glowYesButton();
-                addDesperateMessage();
-
-                if (navigator.vibrate) navigator.vibrate(10);
-                const hue = 340 + (noClickCount * 2) % 30;
-                document.body.style.background =
-                    `linear-gradient(145deg, #fce4ec, hsl(${hue}, 60%, 85%))`;
-
-                if (noClickCount === 10) {
-                    fireConfetti(40);
-                    setTimeout(() => {
-                        const extra = document.createElement('div');
-                        extra.className = 'desperate-msg';
-                        extra.textContent = 'Okay you\'re really committed to this 😂';
-                        desperateContainer.appendChild(extra);
-                        desperateContainer.scrollTop = desperateContainer.scrollHeight;
-                    }, 300);
-                }
-                if (noClickCount === 20) {
-                    setTimeout(() => {
-                        const extra = document.createElement('div');
-                        extra.className = 'desperate-msg';
-                        extra.textContent = '20 times?! You\'re a legend 🤣';
-                        desperateContainer.appendChild(extra);
-                        desperateContainer.scrollTop = desperateContainer.scrollHeight;
-                    }, 400);
-                }
-                if (noClickCount === 30) {
-                    setTimeout(() => {
-                        const extra = document.createElement('div');
-                        extra.className = 'desperate-msg';
-                        extra.textContent = '30?! I\'m genuinely impressed 😂👏';
-                        desperateContainer.appendChild(extra);
-                        desperateContainer.scrollTop = desperateContainer.scrollHeight;
-                    }, 500);
-                }
-                if (noClickCount === 50) {
-                    setTimeout(() => {
-                        const extra = document.createElement('div');
-                        extra.className = 'desperate-msg';
-                        extra.textContent = '50 times… I think you\'re my soulmate 😂💕';
-                        desperateContainer.appendChild(extra);
-                        desperateContainer.scrollTop = desperateContainer.scrollHeight;
-                        fireConfetti(80);
-                    }, 600);
-                }
-
-                if (noClickCount > desperateMessages.length) {
-                    const fallbacks = [
-                        "Okay I'm running out of things to say 😅",
-                        "But I still adore you! 💕",
-                        "You're the best! 🌟",
-                        "Just so you know! ✨",
-                        "I'll wait forever! ⏳",
-                        "No rush, take your time! 🕰️",
-                        "I'm patient! 🧘",
-                        "You're worth it! 💎",
-                        "Never giving up! 🚀",
-                        "💖💖💖",
-                    ];
-                    const fbIdx = (noClickCount - desperateMessages.length) % fallbacks.length;
-                    const el = document.createElement('div');
-                    el.className = 'desperate-msg';
-                    el.textContent = fallbacks[fbIdx];
-                    desperateContainer.appendChild(el);
-                    desperateContainer.scrollTop = desperateContainer.scrollHeight;
-                }
-            }
-
-            // ─── Final button on page 2 ──────────────────────────────
-function handleFinal() {
-    const day = document.getElementById('daySelect').value;
-    const month = document.getElementById('monthSelect').value;
-    const year = document.getElementById('yearSelect').value;
-    const address = document.getElementById('addressSelect').value;
-
-    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    const monthName = monthNames[parseInt(month) - 1] || month;
-
-    const subject = encodeURIComponent('Date Confirmation 💖 from ' + CRUSH_NAME);
-    const body = encodeURIComponent(
-        'Hi! 😊\n\n' +
-        "We're meeting on 📅 " + day + ' ' + monthName + ' ' + year +
-        ' at 📍 ' + address + '.\n\n' +
-        "I can't wait! See you there! 💕\n\n" +
-        '(Generated from the confession page)'
-    );
-
-    const mailtoLink = 'mailto:' + YOUR_EMAIL + '?subject=' + subject + '&body=' + body;
-
-    // Open email client
-    window.location.href = mailtoLink;
-
-    // Confetti burst for extra celebration
-    fireConfetti(300);
-    setTimeout(() => fireConfetti(200), 400);
-}
-
-            // ─── attach events ────────────────────────────────────────
-            btnYes.addEventListener('click', handleYes);
-            btnNo.addEventListener('click', handleNo);
-            finalBtn.addEventListener('click', handleFinal);
-
-            // Keyboard accessibility
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    if (document.activeElement === btnYes) {
-                        e.preventDefault();
-                        btnYes.click();
-                    } else if (document.activeElement === btnNo) {
-                        e.preventDefault();
-                        btnNo.click();
-                    } else if (document.activeElement === finalBtn) {
-                        e.preventDefault();
-                        finalBtn.click();
-                    }
-                }
-            });
-
-            // ─── hint ──────────────────────────────────────────────────
-            let hintTimeout = setTimeout(() => {
-                if (!answered && noClickCount === 0) {
-                    responseSub.textContent = '💭 psst… the "Yes" button is very nice 😉';
-                }
-            }, 4000);
-
-            const cancelHint = () => {
-                clearTimeout(hintTimeout);
-                btnYes.removeEventListener('mouseenter', cancelHint);
-                btnNo.removeEventListener('mouseenter', cancelHint);
-                document.removeEventListener('click', cancelHint);
-            };
-            btnYes.addEventListener('mouseenter', cancelHint);
-            btnNo.addEventListener('mouseenter', cancelHint);
-            document.addEventListener('click', cancelHint);
-
-            // ─── console ──────────────────────────────────────────────
-            console.log('%c💕 YAY! You found the secret console.', 'font-size:1.2rem; color:#ad1457;');
-            console.log(`%cI hope ${CRUSH_NAME} says YES! 💖`, 'font-size:1rem; color:#d81b60;');
-            console.log('%c✨ Change the name by editing CRUSH_NAME in the script.', 'color:#6d4c5a;');
-            console.log('%c🔄 Try clicking "No" a bunch of times… 😏', 'color:#ff6f00;');
-
-        })();
-    </script>
-
-</body>
-</html>
+                    <option value="13">13</option><option value=
